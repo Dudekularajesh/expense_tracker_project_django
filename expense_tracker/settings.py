@@ -120,13 +120,17 @@ DATABASES = {
     }
 }
 
-# If DATABASE_URL is set (for Render / production), override the above config
-db_from_env = dj_database_url.config(
-    default=None, conn_max_age=600, ssl_require=True
-)
+import dj_database_url
 
+# ✅ Do NOT use ssl_require=True for MySQL
+db_from_env = dj_database_url.config(default=None, conn_max_age=600)
+
+# ✅ For Render or other production DBs, manually add ssl_mode if needed
 if db_from_env:
+    if db_from_env['ENGINE'] == 'django.db.backends.mysql':
+        db_from_env['OPTIONS'] = {'ssl_mode': 'DISABLED'}  # or 'REQUIRED' if your host demands it
     DATABASES['default'] = db_from_env
+
 
 
 
