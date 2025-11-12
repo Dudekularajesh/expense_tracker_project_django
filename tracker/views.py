@@ -6,6 +6,7 @@ from django.contrib.auth import authenticate, login, logout, get_user_model
 from django.contrib.auth.decorators import login_required
 import re
 from .models import TrackingHistory, CurrentBalance, UserProfile
+from django.http import JsonResponse
 
 # Use the active User model
 User = get_user_model()
@@ -260,3 +261,8 @@ def edit_profile(request):
 
     context = {'profile': profile}
     return render(request, 'edit_profile.html', context)
+
+
+
+def health_check(request):
+    return JsonResponse({"status": "ok"}, status=200)
