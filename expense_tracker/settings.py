@@ -108,7 +108,7 @@ WSGI_APPLICATION = 'expense_tracker.wsgi.application'
 # Default: local MySQL configuration (for development)
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.mysql',
+        'ENGINE': 'django.db.backends.postgresql',
         'NAME': os.environ.get('MYSQL_DATABASE', 'expense_tracker'),
         'USER': os.environ.get('MYSQL_USER', 'root'),
         'PASSWORD': os.environ.get('MYSQL_PASSWORD', '1234'),
