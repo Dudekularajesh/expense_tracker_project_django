@@ -1,0 +1,228 @@
+{% extends "index.html"%}
+{% block start %}
+
+<!-- {% load static %}
+<link rel="stylesheet" href="{% static 'css/login.css' %}"> -->
+<style>
+  /* ---------- RESET ---------- */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Poppins", sans-serif;
+}
+
+/* ---------- BODY ---------- */
+body {
+  background: linear-gradient(135deg, #43cea2, #185a9d);
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* ---------- CONTAINER ---------- */
+.login-container {
+  background: #fff;
+  width: 90%;
+  max-width: 400px;
+  padding: 2.2rem 2rem;
+  border-radius: 12px;
+  box-shadow: 0 6px 25px rgba(0, 0, 0, 0.15);
+  animation: fadeIn 0.8s ease-in-out;
+  text-align: center;
+}
+
+/* ---------- HEADING ---------- */
+.login-container h2 {
+  font-size: 1.8rem;
+  color: #2c3e50;
+  font-weight: 700;
+  margin-bottom: 1.8rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+
+.login-container h2 img {
+  width: 60px;
+  height: 60px;
+  object-fit: contain;
+}
+
+/* ---------- FORM ---------- */
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+/* ---------- FORM CONTROL ---------- */
+.form-control {
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+}
+
+.form-control label {
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 6px;
+  font-size: 0.95rem;
+}
+
+.form-control input {
+  padding: 12px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+}
+
+.form-control input:focus {
+  border-color: #185a9d;
+  box-shadow: 0 0 6px rgba(24, 90, 157, 0.4);
+  outline: none;
+}
+
+.form-control small {
+  color: #666;
+  font-size: 0.8rem;
+  margin-top: 4px;
+}
+
+/* ---------- BUTTONS ---------- */
+.btn {
+  border: none;
+  padding: 12px;
+  font-size: 1rem;
+  font-weight: 600;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.3s, transform 0.2s;
+}
+
+/* Login Button */
+.btn[type="submit"] {
+  background-color: #185a9d;
+  color: white;
+  width: 100%;
+}
+
+.btn[type="submit"]:hover {
+  background-color: #104d82;
+  transform: scale(1.03);
+}
+
+/* Register Button */
+.register-btn {
+  background-color: #2ecc71;
+  color: white;
+  text-align: center;
+  display: block;
+  text-decoration: none;
+}
+
+.register-btn:hover {
+  background-color: #27ae60;
+  transform: scale(1.03);
+}
+
+/* ---------- TEXT LINKS ---------- */
+.forgot-password,
+.register-text {
+  text-align: center;
+  font-size: 0.9rem;
+  color: #555;
+}
+
+.forgot-password a {
+  color: #185a9d;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.forgot-password a:hover {
+  text-decoration: underline;
+}
+
+.register-text {
+  margin-top: 8px;
+}
+
+/* ---------- ANIMATION ---------- */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ---------- RESPONSIVE ---------- */
+@media (max-width: 600px) {
+  .login-container {
+    padding: 2rem 1.5rem;
+  }
+
+  .login-container h2 {
+    font-size: 1.6rem;
+  }
+
+  .btn {
+    font-size: 0.9rem;
+    padding: 10px;
+  }
+
+  .form-control input {
+    font-size: 0.9rem;
+    padding: 10px;
+  }
+}
+
+</style>
+
+
+<div class="login-container">
+  
+  <h2>
+    <img src="https://www.placements.codegnan.com/images/login-cartoon.webp" alt="login-img">
+    Login Page
+  </h2>
+
+  <form method="POST" id="form">
+    {% csrf_token %}
+    <div class="form-control">
+      <label for="username">Username</label>
+      <input type="text" name="username" id="username" placeholder="Username..." />
+      <small>Unique username is required</small>
+    </div>
+
+    <div class="form-control" style="position: relative;">
+      <label for="password">Password</label>
+      <input type="password" name="password" id="password" placeholder="Password..." autocomplete="off" />
+      <span id="togglePassword" style="position: absolute; right: 10px; top: 38px; cursor: pointer;">
+        <i class="fa-solid fa-eye"></i>
+      </span>
+    </div>
+
+    <button class="btn" type="submit">Login</button>
+
+    <p class="forgot-password"><a href="{% url 'password_reset' %}" class="forgot-password">Forgot Password?</a></p>
+
+
+    <p class="register-text">
+      Don't have an account?
+    </p>
+    <a href="{% url 'register_view' %}" class="btn register-btn">Register Here</a>
+  </form>
+</div>
+
+
+
+
+{% endblock %}

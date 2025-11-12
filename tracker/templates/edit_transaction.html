@@ -1,0 +1,205 @@
+{% extends "index.html" %}
+{% block start %}
+
+
+<style>
+/* ==============================
+   RESET & BASE STYLES
+============================== */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Poppins", sans-serif;
+}
+
+body {
+  background: linear-gradient(135deg, #4a90e2, #007bff);
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+}
+
+/* ==============================
+   CONTAINER
+============================== */
+.container {
+  background: #ffffff;
+  width: 100%;
+  max-width: 480px;
+  padding: 35px 25px;
+  border-radius: 15px;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+  animation: fadeIn 0.4s ease-in-out;
+}
+
+.container h2 {
+  text-align: center;
+  font-size: 24px;
+  color: #007bff;
+  margin-bottom: 25px;
+  letter-spacing: 0.5px;
+}
+
+/* ==============================
+   FORM
+============================== */
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.form-control {
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+}
+
+.form-control label {
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 6px;
+  font-size: 15px;
+}
+
+.form-control input,
+.form-control select {
+  padding: 12px 14px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 15px;
+  transition: all 0.3s ease;
+}
+
+.form-control input:focus,
+.form-control select:focus {
+  border-color: #007bff;
+  box-shadow: 0 0 6px rgba(0, 123, 255, 0.4);
+  outline: none;
+}
+
+/* ==============================
+   BUTTONS
+============================== */
+button.btn {
+  background-color: #007bff;
+  color: white;
+  font-weight: 600;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 16px;
+  padding: 12px;
+  transition: all 0.3s ease;
+  margin-top: 10px;
+}
+
+button.btn:hover {
+  background-color: #0056b3;
+  transform: scale(1.03);
+}
+
+a.btn-secondary {
+  display: inline-block;
+  text-align: center;
+  background-color: #6c757d;
+  color: white;
+  text-decoration: none;
+  border-radius: 6px;
+  padding: 12px;
+  font-weight: 600;
+  font-size: 16px;
+  margin-top: 10px;
+  transition: all 0.3s ease;
+}
+
+a.btn-secondary:hover {
+  background-color: #545b62;
+  transform: scale(1.03);
+}
+
+/* ==============================
+   ANIMATIONS
+============================== */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-15px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ==============================
+   RESPONSIVE DESIGN
+============================== */
+@media (max-width: 600px) {
+  body {
+    padding: 15px;
+  }
+
+  .container {
+    padding: 25px 20px;
+    border-radius: 12px;
+  }
+
+  .container h2 {
+    font-size: 20px;
+  }
+
+  .form-control label {
+    font-size: 14px;
+  }
+
+  .form-control input,
+  .form-control select {
+    font-size: 14px;
+    padding: 10px 12px;
+  }
+
+  button.btn,
+  a.btn-secondary {
+    font-size: 14px;
+    padding: 10px;
+  }
+}
+</style>
+
+
+
+<div class="container" style="max-width:520px; margin:40px auto;">
+  <h2>Edit Transaction</h2>
+
+  <form method="POST">
+    {% csrf_token %}
+
+    <div class="form-control">
+      <label for="description">Description</label>
+      <input type="text" id="description" name="description" value="{{ tx.description }}" required />
+    </div>
+
+    <div class="form-control">
+      <label for="amount">Amount</label>
+      <input type="number" step="0.01" id="amount" name="amount" value="{{ tx.amount }}" required />
+    </div>
+
+    <div class="form-control">
+      <label for="expense_type">Type</label>
+      <select id="expense_type" name="expense_type" required>
+        <option value="">-- Choose Type --</option>
+        <option value="INCOME" {% if tx.expense_type == "INCOME" %}selected{% endif %}>Income</option>
+        <option value="EXPENSE" {% if tx.expense_type == "EXPENSE" %}selected{% endif %}>Expense</option>
+      </select>
+    </div>
+
+    <button type="submit" class="btn btn-primary">💾 Save Changes</button>
+    <a href="/" class="btn btn-secondary">Cancel</a>
+  </form>
+</div>
+
+{% endblock %}

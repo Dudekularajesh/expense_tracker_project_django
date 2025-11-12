@@ -1,0 +1,388 @@
+{% extends "index.html"%}
+{% block start %}
+
+
+
+<style>
+  /* ---------- RESET ---------- */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Poppins", sans-serif;
+}
+
+/* ---------- BODY ---------- */
+body {
+  background: linear-gradient(135deg, #43cea2, #185a9d);
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* ---------- CONTAINER ---------- */
+.register-container {
+  background: #fff;
+  width: 90%;
+  max-width: 450px;
+  padding: 2.5rem 2rem;
+  margin: 2.5rem 2rem;
+  border-radius: 12px;
+  box-shadow: 0 6px 25px rgba(0, 0, 0, 0.15);
+  animation: fadeIn 0.8s ease-in-out;
+}
+
+/* ---------- HEADING ---------- */
+.register-container h2 {
+  text-align: center;
+  font-size: 1.8rem;
+  color: #2c3e50;
+  margin-bottom: 1.8rem;
+  font-weight: 700;
+}
+
+/* ---------- FORM ---------- */
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/* ---------- FORM CONTROL ---------- */
+.form-control {
+  display: flex;
+  flex-direction: column;
+}
+
+.form-control label {
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 6px;
+  font-size: 0.95rem;
+}
+
+.form-control input {
+  padding: 12px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+}
+
+.form-control input:focus {
+  border-color: #185a9d;
+  box-shadow: 0 0 6px rgba(24, 90, 157, 0.4);
+  outline: none;
+}
+
+.form-control small {
+  color: #666;
+  font-size: 0.8rem;
+  margin-top: 4px;
+}
+
+/* ---------- BUTTONS ---------- */
+.btn {
+  border: none;
+  padding: 12px;
+  font-size: 1rem;
+  font-weight: 600;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.3s, transform 0.2s;
+}
+
+/* Main Register Button */
+.register-main-btn {
+  background-color: #185a9d;
+  color: white;
+}
+
+.register-main-btn:hover {
+  background-color: #104d82;
+  transform: scale(1.03);
+}
+
+/* Login Button */
+.login-btn {
+  background-color: #2ecc71;
+  color: white;
+  text-align: center;
+  display: block;
+  text-decoration: none;
+}
+
+.login-btn:hover {
+  background-color: #27ae60;
+  transform: scale(1.03);
+}
+
+/* ---------- TEXT ---------- */
+.login-text {
+  text-align: center;
+  color: #555;
+  font-size: 0.9rem;
+  margin-top: -5px;
+}
+
+.required-star {
+  color: red;
+  font-weight: bold;
+  margin-left: 2px;
+}
+
+.error-message {
+  color: red;
+  font-size: 13px;
+  margin-top: 2px;
+  display: block;
+}
+input.error {
+  border-color: red;
+}
+
+.password-rules {
+  list-style: none;
+  margin: 8px 0 0;
+  padding: 0;
+  font-size: 15px;
+}
+
+.password-rules li {
+  margin-bottom: 5px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.password-rules li i {
+  color: red;
+}
+
+.password-rules li.valid i {
+  color: green;
+}
+
+.password-rules li.valid {
+  color: green;
+}
+
+.password-rules li.invalid {
+  color: red;
+}
+
+.required-star {
+  color: red;
+  margin-left: 4px;
+  font-weight: bold;
+}
+
+
+
+/* ---------- ANIMATION ---------- */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ---------- RESPONSIVE ---------- */
+@media (max-width: 600px) {
+  .register-container {
+    padding: 2rem 1.5rem;
+  }
+
+  .register-container h2 {
+    font-size: 1.6rem;
+  }
+
+  .btn {
+    font-size: 0.9rem;
+    padding: 10px;
+  }
+
+  .form-control input {
+    font-size: 0.9rem;
+    padding: 10px;
+  }
+  .password-rules {
+  list-style: none;
+  margin: 8px 0 0;
+  padding: 0;
+  font-size: 10px;
+}
+}
+
+</style>
+
+<div class="register-container form-control">
+  <h2>Register Page</h2>
+
+  <form method="POST" enctype="multipart/form-data" id="form">
+    {% csrf_token %}
+
+    <div class="form-control">
+      <label for="username">Username <span class="required-star">*</span></label>
+      <input type="text" name="username" id="username" placeholder="Username..." pattern="[a-z]+" title="Only lowercase letters (a–z), no spaces allowed" required />
+      <h6>Username must be unique and lowercase. </h6>
+      <small id="username-error" class="error-message"></small>
+    </div>
+
+    <div class="form-control">
+      <label for="first_name">First Name <span class="required-star">*</span></label>
+      <input type="text" name="first_name" id="first_name" placeholder="First Name..." required />
+    </div>
+
+    <div class="form-control">
+      <label for="last_name">Last Name <span class="required-star">*</span></label>
+      <input type="text" name="last_name" id="last_name" placeholder="Last Name..." required />
+    </div>
+
+    <div class="form-control">
+      <label for="email">Email <span class="required-star">*</span></label>
+      <input type="email" name="email" id="email" placeholder="Email..." required />
+      <small id="email-error" class="error-message"></small>
+    </div>
+
+    <div class="form-control">
+      <label for="phone_number">Phone Number <span class="required-star">*</span></label>
+      <input type="tel" name="phone_number" id="phone_number" value="{{ profile.phone_number }}" 
+       pattern="[0-9]{10}"
+       oninput="this.value=this.value.replace(/[^0-9]/g,'')"
+       maxlength="10"
+       title="Enter exactly 10 digits"
+       placeholder="Phone Number..."
+       required />
+       <small id="phone-error" class="error-message"></small>
+    </div>
+
+    <div class="form-control">
+      <label for="profile_picture">Profile Picture</label>
+      <input type="file" name="profile_picture" id="profile_picture" accept=".jpg,.jpeg"/>
+    </div>
+
+    <div class="form-control" style="position: relative;">
+      <label for="password">Password <span class="required-star">*</span></label>
+      <input type="password" name="password" id="password" placeholder="Password..." required />
+      <span id="togglePassword" style="position: absolute; right: 10px; top: 38px; cursor: pointer;">
+        <i class="fa-solid fa-eye"></i>
+      </span>
+      <ul class="password-rules" id="passwordRules">
+        <li id="lower" class="invalid">
+          <i class="fa-solid fa-circle-xmark"></i> At least one lowercase letter
+        </li>
+        <li id="upper" class="invalid">
+          <i class="fa-solid fa-circle-xmark"></i> At least one uppercase letter
+        </li>
+        <li id="number" class="invalid">
+          <i class="fa-solid fa-circle-xmark"></i> At least one number
+        </li>
+        <li id="special" class="invalid">
+          <i class="fa-solid fa-circle-xmark"></i> At least one special symbol
+        </li>
+        <li id="length" class="invalid">
+          <i class="fa-solid fa-circle-xmark"></i> Minimum 8 characters
+        </li>
+      </ul>
+    </div>
+
+    <button class="btn register-main-btn" type="submit">Register Now</button>
+
+    <p class="login-text">Already have an account?</p>
+    <a href="{% url 'login_view' %}" class="btn login-btn">Login Here</a>
+  </form>
+</div>
+
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  const fields = ['username', 'email', 'phone_number'];
+
+  fields.forEach(field => {
+    const input = document.getElementById(field);
+    const error = document.getElementById(field + '-error');
+
+    input.addEventListener('input', function() {
+      const value = input.value.trim();
+      if (value === '') {
+        error.textContent = '';
+        input.classList.remove('error');
+        return;
+      }
+
+      fetch(`/check_availability/?field=${field}&value=${value}`)
+        .then(response => response.json())
+        .then(data => {
+          if (data.exists) {
+            error.textContent = data.message;
+            input.classList.add('error');
+          } else {
+            error.textContent = '';
+            input.classList.remove('error');
+          }
+        });
+    });
+  });
+});
+
+
+
+
+  
+document.addEventListener('DOMContentLoaded', function () {
+  const passwordInput = document.getElementById("password");
+
+  const rules = {
+    lower: document.getElementById("lower"),
+    upper: document.getElementById("upper"),
+    number: document.getElementById("number"),
+    special: document.getElementById("special"),
+    length: document.getElementById("length")
+  };
+
+  passwordInput.addEventListener("input", function () {
+    const value = passwordInput.value;
+
+    // Lowercase
+    toggleRule(rules.lower, /[a-z]/.test(value));
+
+    // Uppercase
+    toggleRule(rules.upper, /[A-Z]/.test(value));
+
+    // Number
+    toggleRule(rules.number, /[0-9]/.test(value));
+
+    // Special Character
+    toggleRule(rules.special, /[^A-Za-z0-9]/.test(value));
+
+    // Length
+    toggleRule(rules.length, value.length >= 8);
+  });
+
+  function toggleRule(element, valid) {
+    const icon = element.querySelector("i");
+    if (valid) {
+      element.classList.add("valid");
+      element.classList.remove("invalid");
+      icon.classList.remove("fa-circle-xmark");
+      icon.classList.add("fa-circle-check");
+    } else {
+      element.classList.add("invalid");
+      element.classList.remove("valid");
+      icon.classList.remove("fa-circle-check");
+      icon.classList.add("fa-circle-xmark");
+    }
+  }
+});
+ 
+</script>
+
+
+
+{% endblock %}

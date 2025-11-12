@@ -1,0 +1,457 @@
+
+{% extends "index.html" %}
+{% block start %}
+
+<!-- {% load static %}
+<link rel="stylesheet" href="{% static 'css/base.css' %}"> -->
+
+<style>
+  /* ==== Global Reset ==== */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Poppins", sans-serif;
+}
+
+/* ==== Body ==== */
+body {
+  background-color: #f7fbff;
+  color: #333;
+  min-height: 100vh;
+}
+
+/* ==== Navigation Bar ==== */
+nav {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #b3d9ff;
+  padding: 15px 25px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+nav h1 {
+  font-size: 1.5rem;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: #004c99;
+}
+
+nav i {
+  color: #004c99;
+}
+
+nav .btn {
+  background-color: #007bff;
+  color: white;
+  padding: 8px 16px;
+  border-radius: 6px;
+  text-decoration: none;
+  transition: background 0.3s ease;
+}
+
+nav .btn:hover {
+  background-color: #0056b3;
+}
+
+nav .btn.btn-danger {
+  background-color: #ff4d4d;
+}
+
+nav .btn.btn-danger:hover {
+  background-color: #e63939;
+}
+
+nav .btn.btn-secondary {
+  background-color: #4d79ff;
+}
+
+nav .btn.btn-secondary:hover {
+  background-color: #3358cc;
+}
+
+/* ==== Profile Section in Navbar ==== */
+nav div {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+nav img {
+  border: 2px solid #fff;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+}
+
+/* ==== Main Layout ==== */
+.main-content {
+  display: flex;
+  justify-content: space-between;
+  gap: 30px;
+  margin: 30px 5%;
+  flex-wrap: wrap;
+}
+
+/* ==== Left Panel ==== */
+.left-panel {
+  flex: 1;
+  min-width: 320px;
+  background-color: white;
+  padding: 25px;
+  border-radius: 15px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.left-panel .header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 25px;
+}
+
+.left-panel .header img {
+  width: 80px;
+  height: 80px;
+}
+
+.balance-container {
+  text-align: right;
+}
+
+.balance-container h2 {
+  font-weight: 600;
+  color: #004c99;
+}
+
+/* ==== Income / Expense Container ==== */
+.inc-exp-container {
+  display: flex;
+  justify-content: space-around;
+  margin: 20px 0;
+  padding: 15px;
+  border-radius: 10px;
+  background-color: #f1f7ff;
+  box-shadow: inset 0 0 8px rgba(0, 0, 0, 0.05);
+}
+
+.inc-exp-container div {
+  text-align: center;
+}
+
+.money.plus {
+  color: #28a745;
+  font-weight: bold;
+}
+
+.money.minus {
+  color: #dc3545;
+  font-weight: bold;
+}
+
+/* ==== Transaction Form ==== */
+form {
+  margin-top: 20px;
+}
+
+.form-control {
+  margin-bottom: 15px;
+}
+
+.form-control label {
+  display: block;
+  margin-bottom: 6px;
+  font-weight: 500;
+  color: #333;
+}
+
+.form-control input,
+.form-control select {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  outline: none;
+  transition: border 0.2s ease;
+}
+
+.form-control input:focus,
+.form-control select:focus {
+  border-color: #007bff;
+}
+
+form .btn {
+  width: 100%;
+  background-color: #007bff;
+  color: #fff;
+  padding: 10px 0;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+form .btn:hover {
+  background-color: #0056b3;
+}
+
+/* ==== Right Panel ==== */
+.right-panel {
+  flex: 1;
+  min-width: 320px;
+  background-color: white;
+  padding: 25px;
+  border-radius: 15px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.right-panel h3 {
+  text-align: center;
+  margin-bottom: 15px;
+  color: #004c99;
+}
+
+.list {
+  list-style: none;
+}
+
+.list li {
+  background-color: #f9f9f9;
+  border-left: 5px solid #28a745;
+  padding: 12px;
+  margin-bottom: 10px;
+  border-radius: 8px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  transition: transform 0.2s ease, background 0.3s ease;
+}
+
+.list li.minus {
+  border-left-color: #dc3545;
+}
+
+.list li:hover {
+  background-color: #eef7ff;
+  transform: translateX(4px);
+}
+
+.delete-btn {
+  background: transparent;
+  border: none;
+  color: #ff4d4d;
+  font-size: 1.1rem;
+  cursor: pointer;
+  transition: color 0.3s ease;
+}
+
+.delete-btn:hover {
+  color: #cc0000;
+}
+
+.edit-btn {
+  color: #007bff;
+  margin-right: 10px;
+  text-decoration: none;
+}
+
+.edit-btn:hover {
+  color: #0056b3;
+}
+
+
+/* ==== Notification ==== */
+.notification-container {
+  display: none;
+  position: fixed;
+  bottom: 25px;
+  right: 25px;
+  background-color: #ffcccc;
+  color: #990000;
+  padding: 10px 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+.required-star{
+  color: red;
+  font-weight: bold;
+  margin-left: 2px;
+}
+
+/* ==== Responsive Design ==== */
+@media (max-width: 1024px) {
+  .main-content {
+    flex-direction: column;
+  }
+
+  nav {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+
+  nav div {
+    flex-direction: row;
+    justify-content: space-between;
+    width: 100%;
+  }
+
+  .right-panel,
+  .left-panel {
+    width: 100%;
+  }
+}
+
+@media (max-width: 768px) {
+  nav {
+    text-align: center;
+  }
+
+  nav div {
+    flex-direction: column;
+  }
+
+  nav img {
+    width: 60px;
+    height: 60px;
+  }
+
+  .main-content {
+    margin: 20px 10px;
+  }
+
+  .left-panel,
+  .right-panel {
+    padding: 15px;
+  }
+
+  .form-control input,
+  .form-control select {
+    font-size: 0.9rem;
+  }
+}
+
+</style>
+
+
+
+<nav style="display: flex; justify-content: space-around; align-items: center; background-color: #b3d9ff;padding: 10px 20px; border-radius: 5px;">
+    <h1><i class="fa-solid fa-house"></i> Expense Tracker</h1>
+
+   <div style="display: flex; align-items: center; gap: 15px;">
+      {% if profile.profile_picture %}
+          <img src="{{ profile.profile_picture.url }}" alt="Profile" 
+               style="width: 100px; height: 100px; border-radius: 50%; object-fit: cover;">
+      {% else %}
+          <img src="{% static 'images/default.png' %}" alt="Default" 
+               style="width: 40px; height: 40px; border-radius: 50%;">
+      {% endif %}
+
+        <div>
+            <strong>User Name : {{ request.user.username }}</strong><br>
+            <small>Email : {{ request.user.email }}</small><br>
+            <small>Phone : {{ profile.phone_number }}</small>
+        </div>
+    </div>
+
+    <a href="{% url 'edit_profile' %}" class="btn btn-secondary">
+      <i class="fa-solid fa-user-pen"></i> Edit Profile
+    </a>
+
+    <a class="btn btn-danger" href="{% url 'logout_view' %}">
+        <i class="fa-solid fa-right-from-bracket"></i> Logout
+    </a>
+
+</nav>
+
+
+<div class="main-content">
+  <!-- Left side -->
+  <div class="left-panel">
+    <div class="header">
+      <img src="https://i.ibb.co/jfScDTC/budget.png" alt="Expense Tracker" />
+      <div class="balance-container">
+        <h2>Your Balance</h2>
+        <h2 class="balance"><i class="fa-solid fa-wallet"></i> {{ current_balance.current_balance }}</h2>
+      </div>
+    </div>
+
+    <div class="inc-exp-container">
+      <div>
+        <h4>INCOME</h4>
+        <p class="money plus"><i class="fa-solid fa-indian-rupee-sign"></i> {{ income }}</p>
+      </div>
+      <div>
+        <h4>EXPENSES</h4>
+        <p class="money minus"><i class="fa-solid fa-indian-rupee-sign"></i> {{ expense }}</p>
+      </div>
+    </div>
+
+    <form method="POST" id="form">
+      {% csrf_token %}
+      <div class="form-control">
+        <label for="text">Description <span class="required-star">*</span></label>
+        <input type="text" name="description" placeholder="Enter description..." required/>
+      </div>
+
+      <div class="form-control">
+        <label for="expense_type">Select Type <span class="required-star">*</span></label>
+        <select name="expense_type" id="expense_type" required>
+          <option value="">-- Choose Type--</option>
+          <option value="INCOME">Income</option>
+          <option value="EXPENSE">Expense</option>
+        </select>
+      </div>
+      
+      <div class="form-control">
+        <label for="amount">Amount <span class="required-star">*</span></label>
+        <input type="number" name="amount" min="1" step="0.01" placeholder="Enter amount..." required />
+      </div>
+      <button class="btn" type="submit">Add Transaction</button>
+    </form>
+  </div>
+
+  <!-- Right side -->
+  <div class="right-panel">
+    <h3>History</h3>
+    <ul class="list">
+      {% for transaction in transactions %}
+      <li class="{% if transaction.expense_type == 'EXPENSE' %}minus{% else %}plus{% endif %}">
+        {{ transaction.description }}
+        <span>{{ transaction.amount }}</span>
+        <a class="edit-btn" href="{% url 'edit_transaction' transaction.id %}" title="Edit">
+          <i class="fa-solid fa-pen-to-square"></i>
+        </a>
+        <a class="delete-btn" href="{% url 'delete_transaction' transaction.id %}">
+          <i class="fas fa-trash-alt"></i>
+        </a>
+      </li>
+      {% endfor %}
+    </ul>
+  </div>
+</div>
+
+<div class="notification-container" id="notification">
+  <p>Please add a description and amount</p>
+</div>
+
+
+
+
+{% endblock %}
+
+
+
+
+<!-- <nav>
+  <h1><i class="fa-solid fa-house"></i> Expense Tracker</h1>
+  <h4><i class="fa-solid fa-circle-user"></i> User Name:
+      <span>{{ request.user.first_name }} {{ request.user.last_name }}</span></h4>
+  <a class="btn" href="{% url 'logout_view' %}">
+      <i class="fa-solid fa-right-from-bracket"></i> Logout
+  </a>
+</nav> -->
