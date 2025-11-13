@@ -174,11 +174,18 @@ def delete_transaction(request, id):
 
     if tracking_history:
         current_balance, _ = CurrentBalance.objects.get_or_create(user=request.user)
-        current_balance.current_balance -= tracking_history.amount
+
+        # ✅ Adjust balance correctly based on transaction type
+        if tracking_history.expense_type == "INCOME":
+            current_balance.current_balance -= tracking_history.amount
+        elif tracking_history.expense_type == "EXPENSE":
+            current_balance.current_balance += tracking_history.amount
+
         current_balance.save()
         tracking_history.delete()
 
     return redirect('/')
+
 
 
 

@@ -11,7 +11,7 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 """
 import os
 from pathlib import Path
-import dj_database_url
+# import dj_database_url
 from dotenv import load_dotenv
 
 
@@ -30,9 +30,7 @@ SECRET_KEY = os.environ.get('SECRET_KEY', 'fallback-secret-key')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.environ.get('DEBUG', 'True') == 'True'
 
-ALLOWED_HOSTS = os.environ.get('ALLOWED_HOSTS', '').split(',')
-if not ALLOWED_HOSTS or ALLOWED_HOSTS == ['']:
-    ALLOWED_HOSTS = ['127.0.0.1', 'localhost']
+ALLOWED_HOSTS =['*']
 
 
 # Application definition
@@ -83,12 +81,12 @@ WSGI_APPLICATION = 'expense_tracker.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
 
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.sqlite3',
-#         'NAME': BASE_DIR / 'db.sqlite3',
-#     }
-# }
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
+    }
+}
 
 
 # DATABASES = {
@@ -106,30 +104,34 @@ WSGI_APPLICATION = 'expense_tracker.wsgi.application'
 
 
 # Default: local MySQL configuration (for development)
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': os.environ.get('MYSQL_DATABASE', 'expense_tracker'),
-        'USER': os.environ.get('MYSQL_USER', 'root'),
-        'PASSWORD': os.environ.get('MYSQL_PASSWORD', '1234'),
-        'HOST': os.environ.get('MYSQL_HOST', '127.0.0.1'),
-        'PORT': os.environ.get('MYSQL_PORT', '3306'),
-        'OPTIONS': {
-            'init_command': "SET sql_mode='STRICT_TRANS_TABLES'",
-        },
-    }
-}
+# import os
+# import dj_database_url
+# from pathlib import Path
 
-import dj_database_url
+# BASE_DIR = Path(__file__).resolve().parent.parent
 
-# ✅ Do NOT use ssl_require=True for MySQL
-db_from_env = dj_database_url.config(default=None, conn_max_age=600)
+# # ✅ Default: Local MySQL (development)
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.mysql',
+#         'NAME': os.environ.get('MYSQL_DATABASE', 'expense_tracker'),
+#         'USER': os.environ.get('MYSQL_USER', 'root'),
+#         'PASSWORD': os.environ.get('MYSQL_PASSWORD', '1234'),
+#         'HOST': os.environ.get('MYSQL_HOST', '127.0.0.1'),
+#         'PORT': os.environ.get('MYSQL_PORT', '3306'),
+#         'OPTIONS': {
+#             'init_command': "SET sql_mode='STRICT_TRANS_TABLES'",
+#         },
+#     }
+# }
 
-# ✅ For Render or other production DBs, manually add ssl_mode if needed
-if db_from_env:
-    if db_from_env['ENGINE'] == 'django.db.backends.mysql':
-        db_from_env['OPTIONS'] = {'ssl_mode': 'DISABLED'}  # or 'REQUIRED' if your host demands it
-    DATABASES['default'] = db_from_env
+# # ✅ Override with DATABASE_URL (for Render / Production)
+# db_from_env = dj_database_url.config(default=None, conn_max_age=600)
+
+# if db_from_env:
+#     # Render uses PostgreSQL
+#     DATABASES['default'] = db_from_env
+
 
 
 
