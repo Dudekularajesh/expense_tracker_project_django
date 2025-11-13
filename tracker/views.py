@@ -91,7 +91,8 @@ def register_view(request):
                 first_name=first_name,
                 last_name=last_name,
                 password=password,
-                phone_number=phone_number
+                phone_number=phone_number,
+                profile_picture=profile_picture
             )
 
             # ✅ Create user profile
@@ -273,3 +274,4 @@ def edit_profile(request):
 
 def health_check(request):
     return JsonResponse({"status": "ok"}, status=200)
+
